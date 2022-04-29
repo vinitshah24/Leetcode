@@ -1,0 +1,41 @@
+-- SQL Questions asking for groups having certain counts.
+-- SQL Question asking for a percentage of the selected data.
+-- SQL - You should be well aware of aggregations, how to do one table scan and provide aggregated values.
+-- SQL several % calculation questions
+-- I wasn't great at postgres so I couldn't reach the output even though the logic was right.
+-- Please prepare SQL coding of glassdoor question with Postgres.
+-- in a table find the percentage of customers who purchased a particular product.
+-- SQL question: given a table find the most recent transaction in the table.
+-- NULL + 1 = NULL
+-- Union and Union Alll which one is faster
+-- SQL: 2 questions on case, 1 on order-limit/rank/top(whatever you want to use),percentage/ratio calculations/joins
+-- SQL: questions on Sales, Promotion, Product tables. Calculation of percentage of total sales on start and end dates with overall sales, etc.
+-- Product Sense, Data Modeling, SQL, Python, Ownership
+-- SQL : questions are already on glassdoor can be solved using AVG, COUNT , LEFT JOIN , MULTI table join.
+-- Mostly focus on %age type questions
+
+-- SQL question: find the top 10 college/company that a average social person interacts with. something in those lines.
+-- I split the query in two. Not able to finish coding but was able to explain and write both the parts but didn't have
+-- time to test it. also had data modeling questions. on a social network website. cant give details.
+
+-- Calculating percentage of sales percentage of non dat and regular products
+-- Calculating percentage of sales that matched the start date and end date of the promotion
+
+-- Q: 1. is null = null?
+-- Q: 2. what operator will you use if you want to join a table 2 tables with one left and matched the right one?
+
+-- 1. the ORDER BY command in SQL is automatically set in what format if you didn't set it? Ascending or Descending?
+-- Answer: Ascending
+-- 2. When you want to delete or add a column of a table in a database, what command you will use?
+-- Answer: ALTER
+-- 3. this question about about LEFT JOIN, they ask what command you want to use if you want to keep all the info of the left table?
+-- Answer: left join
+-- 4. You want to combine two column after removing two duplicates, use UNION or UNION ALL?
+-- Answer: UNION
+-- A table schema with tables like employee, department, employee_to_projects, projects
+-- 1) Select employee from departments where max salary of the department is 40k
+-- 2) Select employee assigned to projects
+-- 3) Select employee which have the max salary in a given department
+-- 4) Select employee with second highest salary
+-- 5) Table has two data entries every day for # of apples and oranges sold.
+--    write a query to get the difference between the apples and oranges sold on a given day
