@@ -1,77 +1,114 @@
---Question 94
--- Table Accounts:
+"""
+Question 94
+Table Accounts:
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| name          | varchar |
++---------------+---------+
+the id is the primary key for this table.
+This table contains the account id and the user name of each account.
 
--- +---------------+---------+
--- | Column Name   | Type    |
--- +---------------+---------+
--- | id            | int     |
--- | name          | varchar |
--- +---------------+---------+
--- the id is the primary key for this table.
--- This table contains the account id and the user name of each account.
- 
+Table Logins:
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| login_date    | date    |
++---------------+---------+
+There is no primary key for this table, it may contain duplicates.
+This table contains the account id of the user who logged in and the login date.
+A user may log in multiple times in the day.
 
--- Table Logins:
+Write an SQL query to find the id and the name of active users.
+Active users are those who logged in to their accounts for 5 or more consecutive days.
+Return the result table ordered by the id.
 
--- +---------------+---------+
--- | Column Name   | Type    |
--- +---------------+---------+
--- | id            | int     |
--- | login_date    | date    |
--- +---------------+---------+
--- There is no primary key for this table, it may contain duplicates.
--- This table contains the account id of the user who logged in and the login date. A user may log in multiple times in the day.
- 
+The query result format is in the following example:
 
--- Write an SQL query to find the id and the name of active users.
+Accounts table:
++----+----------+
+| id | name     |
++----+----------+
+| 1  | Winston  |
+| 7  | Jonathan |
++----+----------+
 
--- Active users are those who logged in to their accounts for 5 or more consecutive days.
+Logins table:
++----+------------+
+| id | login_date |
++----+------------+
+| 7  | 2020-05-30 |
+| 1  | 2020-05-30 |
+| 7  | 2020-05-31 |
+| 7  | 2020-06-01 |
+| 7  | 2020-06-02 |
+| 7  | 2020-06-02 |
+| 7  | 2020-06-03 |
+| 1  | 2020-06-07 |
+| 7  | 2020-06-10 |
++----+------------+
 
--- Return the result table ordered by the id.
+Result table:
++----+----------+
+| id | name     |
++----+----------+
+| 7  | Jonathan |
++----+----------+
+User Winston with id = 1 logged in 2 times only in 2 different days, so, Winston is not an active user.
+User Jonathan with id = 7 logged in 7 times in 6 different days, five of them were consecutive days, so,
+Jonathan is an active user.
+"""
 
--- The query result format is in the following example:
+USE test_db;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS logins;
 
--- Accounts table:
--- +----+----------+
--- | id | name     |
--- +----+----------+
--- | 1  | Winston  |
--- | 7  | Jonathan |
--- +----+----------+
+CREATE TABLE accounts (
+    id INT,
+    name VARCHAR(200)
+);
+INSERT INTO accounts
+VALUES
+(1 , "Winston"),
+(7 , "Jonathan");
 
--- Logins table:
--- +----+------------+
--- | id | login_date |
--- +----+------------+
--- | 7  | 2020-05-30 |
--- | 1  | 2020-05-30 |
--- | 7  | 2020-05-31 |
--- | 7  | 2020-06-01 |
--- | 7  | 2020-06-02 |
--- | 7  | 2020-06-02 |
--- | 7  | 2020-06-03 |
--- | 1  | 2020-06-07 |
--- | 7  | 2020-06-10 |
--- +----+------------+
+CREATE TABLE logins (
+    id INT,
+    login_date DATE
+);
 
--- Result table:
--- +----+----------+
--- | id | name     |
--- +----+----------+
--- | 7  | Jonathan |
--- +----+----------+
--- User Winston with id = 1 logged in 2 times only in 2 different days, so, Winston is not an active user.
--- User Jonathan with id = 7 logged in 7 times in 6 different days, five of them were consecutive days, so, Jonathan is an active user.
+INSERT INTO logins
+VALUES
+(7 , "2020-05-30"),
+(1 , "2020-05-30"),
+(7 , "2020-05-31"),
+(7 , "2020-06-01"),
+(7 , "2020-06-02"),
+(7 , "2020-06-02"),
+(7 , "2020-06-03"),
+(1 , "2020-06-07"),
+(7 , "2020-06-10");
+
+SELECT * FROM accounts;
+SELECT * FROM logins;
 
 -- Solution
 with t1 as (
-select id,login_date,
-lead(login_date,4) over(partition by id order by login_date) date_5
-from (select distinct * from Logins) b
+    select id, login_date, lead(login_date, 4) over (partition by id order by login_date) date_5
+    from (select distinct * from Logins) b
 )
-
-select distinct a.id, a.name from t1
-inner join accounts a 
+select distinct a.id, a.name
+from t1
+inner join accounts a
 on t1.id = a.id
 where datediff(t1.date_5,login_date) = 4
-order by id
+order by id;
+
+SELECT a.id, acc.name
+FROM logins a
+JOIN logins b ON a.id = b.id AND DATEDIFF(a.login_date, b.login_date) BETWEEN 1 AND 4
+JOIN accounts acc ON a.id = acc.id
+GROUP BY a.id
+HAVING COUNT(DISTINCT b.login_date) = 4;
