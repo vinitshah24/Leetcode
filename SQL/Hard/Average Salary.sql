@@ -41,6 +41,31 @@ So the comparison result is 'lower' since 8000 < 8333.33.
 With the same formula for the average salary comparison in February, the result is 'same'
 since both the department '1' and '2' have the same average salary with the company, which is 7000.
 """
+drop table if exists salary;
+drop table if exists employee;
+
+Create table If Not Exists salary (
+    id int,
+    employee_id int,
+    amount int,
+    pay_date date
+);
+insert into salary values
+('1', '1', '9000', '2017/03/31'),
+('2', '2', '6000', '2017/03/31'),
+('3', '3', '10000', '2017/03/31'),
+('4', '1', '7000', '2017/02/28'),
+('5', '2', '6000', '2017/02/28'),
+('6', '3', '8000', '2017/02/28');
+
+Create table If Not Exists employee (
+    employee_id int,
+    department_id int
+);
+insert into employee (employee_id, department_id) values
+('1', '1'),
+('2', '2'),
+('3', '2');
 
 -- Solution
 with t1 as (
